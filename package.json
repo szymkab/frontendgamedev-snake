@@ -1,0 +1,59 @@
+{
+  "name": "createjs-boilerplate",
+  "version": "1.0.0",
+  "main": "source/app.js",
+  "repository": "git@github.com:szymkab/createjs-boilerplate.git",
+  "author": "Szymon Kabelis",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --inline",
+    "build": "webpack",
+    "lint": "eslint -- .",
+    "lint:fix": "eslint --fix -- .",
+    "lint-staged": "lint-staged",
+    "test": "jest",
+    "presetup": "yarn add shelljs",
+    "setup": "node ./setup.js"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.11.5",
+    "createjs": "^1.0.1",
+    "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@types/createjs": "^0.0.29",
+    "babel-core": "^7.0.0-bridge",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.3.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^4.3.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-webpack-plugin": "^2.1.0",
+    "exports-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "husky": "^4.3.0",
+    "imports-loader": "^1.1.0",
+    "jest": "^26.4.2",
+    "lint-staged": "^10.4.0",
+    "mini-css-extract-plugin": "^0.11.2",
+    "prettier": "2.1.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "browserslist": "> 0.25%, not dead",
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn lint"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ]
+  }
+}

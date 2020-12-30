@@ -1,0 +1,10 @@
+body {
+  background: #000;
+  margin: 0;
+  display: flex;
+}
+
+#stage {
+  background: #6acc77;
+  margin: 0 auto;
+}
