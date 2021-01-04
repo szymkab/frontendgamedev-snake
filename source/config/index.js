@@ -1,5 +1,7 @@
 export const CONFIG = {
-  canvasWidth: 400,
-  canvasHeight: 900,
+  canvasWidth: 1000,
+  canvasHeight: 1000,
   framerate: 50,
+  snakeLength: 10,
+  snakeSize: 40,
 };
