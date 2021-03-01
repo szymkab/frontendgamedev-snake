@@ -1,3 +1,4 @@
+import { CONFIG } from "@/config";
 import { Container, Ticker } from "@createjs/EaselJS";
 import { SnakeHead } from "../graphics/SnakeHead";
 import { SnakePart } from "../graphics/SnakePart";
@@ -70,6 +71,29 @@ export class World {
     this.stage.update();
   }
 
+  checkBordersCollision() {
+    return (
+      this.snake.head.x > CONFIG.canvasWidth ||
+      this.snake.head.x < 0 ||
+      this.snake.head.y > CONFIG.canvasHeight ||
+      this.snake.head.y < 0
+    );
+  }
+
+  checkSelfCollision() {
+    for (let i = 1; i < this.snake.position.length; i++) {
+      if (this.snake.position[i].x === this.snake.head.x && this.snake.position[i].y === this.snake.head.y) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  checkSnakeCollision() {
+    return this.checkBordersCollision() || this.checkSelfCollision();
+  }
+
   pauseGame() {
     this.isPaused = true;
     this.snake.stop();
@@ -87,7 +111,12 @@ export class World {
       return;
     }
 
-    this.snake.move();
-    this.drawSnake();
+    if (!this.checkSnakeCollision()) {
+      this.snake.move();
+      this.drawSnake();
+    } else {
+      this.snake.stop();
+      document.removeEventListener("keydown", this.handleKeydown.bind(this));
+    }
   }
 }
