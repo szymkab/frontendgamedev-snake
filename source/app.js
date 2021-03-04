@@ -1,6 +1,6 @@
 import "./polyfills";
 
-import { Stage, Graphics, Shape, Ticker, Text } from "@createjs/EaselJS";
+import { Stage, Ticker } from "@createjs/EaselJS";
 
 import { createDOMStage, getDOMStage, handleResize } from "@/utils";
 

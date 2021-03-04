@@ -48,6 +48,11 @@ export class Snake {
     }
   }
 
+  grow() {
+    const snakeTail = this.position[this.position.length - 1];
+    this.position.push({ x: snakeTail.x - CONFIG.snakeSize, y: snakeTail.y - CONFIG.snakeSize });
+  }
+
   start() {
     this.isMoving = true;
   }

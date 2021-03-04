@@ -2,7 +2,9 @@ import { CONFIG } from "@/config";
 import { Container, Ticker } from "@createjs/EaselJS";
 import { SnakeHead } from "../graphics/SnakeHead";
 import { SnakePart } from "../graphics/SnakePart";
+import { FoodGraphic } from "../graphics/FoodGraphic";
 import { Snake } from "../models/Snake";
+import { Food } from "../models/Food";
 
 export class World {
   constructor(stage) {
@@ -10,10 +12,13 @@ export class World {
     this.isPaused = true;
 
     this.snakeContainer = new Container();
-    this.stage.addChild(this.snakeContainer);
+    this.foodContainer = new Container();
+    this.stage.addChild(this.snakeContainer, this.foodContainer);
 
     this.snake = new Snake();
+    this.food = new Food();
     this.drawSnake();
+    this.drawFood();
 
     Ticker.on("tick", this.render.bind(this));
     document.addEventListener("keydown", this.handleKeydown.bind(this));
@@ -62,6 +67,12 @@ export class World {
     }
   }
 
+  drawFood() {
+    this.foodContainer.removeAllChildren();
+    const food = new FoodGraphic(this.food.position.x, this.food.position.y);
+    this.foodContainer.addChild(food);
+  }
+
   drawSnake() {
     this.snakeContainer.removeAllChildren();
     this.snake.position.forEach(({ x, y }, index) => {
@@ -69,6 +80,10 @@ export class World {
       this.snakeContainer.addChild(part);
     });
     this.stage.update();
+  }
+
+  checkFoodCollision() {
+    return this.snake.head.x === this.food.position.x && this.snake.head.y === this.food.position.y;
   }
 
   checkBordersCollision() {
@@ -109,6 +124,12 @@ export class World {
 
     if (this.isPaused) {
       return;
+    }
+
+    if (this.checkFoodCollision()) {
+      this.snake.grow();
+      this.food.generateRandomPosition();
+      this.drawFood();
     }
 
     if (!this.checkSnakeCollision()) {
