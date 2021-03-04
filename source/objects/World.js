@@ -1,5 +1,5 @@
 import { CONFIG } from "@/config";
-import { Container, Ticker } from "@createjs/EaselJS";
+import { Container, Ticker, Text } from "@createjs/EaselJS";
 import { SnakeHead } from "../graphics/SnakeHead";
 import { SnakePart } from "../graphics/SnakePart";
 import { FoodGraphic } from "../graphics/FoodGraphic";
@@ -9,11 +9,15 @@ import { Food } from "../models/Food";
 export class World {
   constructor(stage) {
     this.stage = stage;
+    this.score = 0;
     this.isPaused = true;
 
+    this.scoreText = new Text("Score 0", "72px Helvetica", "#333");
+    this.scoreText.x = CONFIG.snakeSize;
+    this.scoreText.y = CONFIG.snakeSize;
     this.snakeContainer = new Container();
     this.foodContainer = new Container();
-    this.stage.addChild(this.snakeContainer, this.foodContainer);
+    this.stage.addChild(this.snakeContainer, this.foodContainer, this.scoreText);
 
     this.snake = new Snake();
     this.food = new Food();
@@ -65,6 +69,10 @@ export class World {
     if (keyPressed === DOWN_KEY && !goingUp) {
       this.snake.changeDirection("DOWN");
     }
+  }
+
+  drawScore() {
+    this.scoreText.text = `Score ${this.score}`;
   }
 
   drawFood() {
@@ -127,6 +135,9 @@ export class World {
     }
 
     if (this.checkFoodCollision()) {
+      this.score += 10;
+      this.drawScore();
+
       this.snake.grow();
       this.food.generateRandomPosition();
       this.drawFood();
