@@ -1,4 +1,5 @@
+# Frontendgamedev Snake
 
-# This is README of you project
+This repository contains a code for CreateJS Snake Tutorial.
 
-Some informations
+[https://frontendgamedev.com](https://frontendgamedev.com/snake-in-createjs-tutorial-part-1/)
