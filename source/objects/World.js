@@ -7,25 +7,28 @@ import { Snake } from "../models/Snake";
 import { Food } from "../models/Food";
 
 export class World {
-  constructor(stage) {
+  constructor(stage, changeScene) {
     this.stage = stage;
+    this.changeScene = changeScene;
     this.score = 0;
     this.isPaused = true;
 
+    this.container = new Container();
     this.scoreText = new Text("Score 0", "72px Helvetica", "#333");
     this.scoreText.x = CONFIG.snakeSize;
     this.scoreText.y = CONFIG.snakeSize;
     this.snakeContainer = new Container();
     this.foodContainer = new Container();
-    this.stage.addChild(this.snakeContainer, this.foodContainer, this.scoreText);
+    this.container.addChild(this.snakeContainer, this.foodContainer, this.scoreText);
 
     this.snake = new Snake();
     this.food = new Food();
     this.drawSnake();
     this.drawFood();
 
-    Ticker.on("tick", this.render.bind(this));
-    document.addEventListener("keydown", this.handleKeydown.bind(this));
+    this.boundKeydown = this.handleKeydown.bind(this);
+    this.tickListener = Ticker.on("tick", this.render.bind(this));
+    document.addEventListener("keydown", this.boundKeydown);
   }
 
   handleKeydown(event) {
@@ -148,7 +151,9 @@ export class World {
       this.drawSnake();
     } else {
       this.snake.stop();
-      document.removeEventListener("keydown", this.handleKeydown.bind(this));
+      document.removeEventListener("keydown", this.boundKeydown);
+      Ticker.off("tick", this.tickListener);
+      this.changeScene("GAME_OVER");
     }
   }
 }

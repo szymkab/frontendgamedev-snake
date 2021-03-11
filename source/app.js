@@ -6,8 +6,9 @@ import { createDOMStage, getDOMStage, handleResize } from "@/utils";
 
 import { CONFIG } from "@/config";
 
+import { Scene } from "@/objects/Scene";
+
 import "./styles.css";
-import { World } from "./objects/World";
 
 const init = () => {
   const body = document.getElementsByTagName("body")[0];
@@ -23,7 +24,7 @@ const init = () => {
     const canvas = getDOMStage();
     const stage = new Stage(canvas);
 
-    new World(stage);
+    new Scene(stage);
 
     handleResize(canvas, stage);
     window.onresize = () => handleResize(canvas, stage);
